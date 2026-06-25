@@ -2,6 +2,7 @@ import React, { use } from 'react';
 
 import ecoLogo from '../../assets/eco_logo.png'
 import { AuthContext } from '../../auth/AuthProvider';
+import { NavLink } from 'react-router';
 const Navbar = () => {
 
   const { user, signOutUser } = use(AuthContext);
@@ -42,9 +43,25 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-              {navLinks}
-              =      </ul>
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow text-[var(--accent)]">
+
+              <li>
+                <NavLink to="/challenges">Challenges</NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/myActivities">My Activities</NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/profile">Profile</NavLink>
+              </li>
+
+              <li>
+                <button onClick={signOutHandler}>Logout</button>
+              </li>
+
+            </ul>
           </div>
           <div className='flex items-center'>
             <img className='w-10' src={ecoLogo} alt="Eco Logo" />
@@ -56,17 +73,17 @@ const Navbar = () => {
             {navLinks}
           </ul>
         </div>
-        <div className="navbar-end">
+        <div className="navbar-end hidden lg:flex">
 
           {
             user ? <div>
               <div className="dropdown dropdown-end">
-                <div tabIndex={0}  className="flex items-center gap-5 m-1">
-                  <div className="w-8 rounded-2xl">
-                    <img src="https://img.daisyui.com/images/profile/demo/yellingwoman@192.webp" />
+                <div tabIndex={0} className="flex items-center gap-5 m-1">
+                  <div className="w-10">
+                    <img className='rounded-2xl' src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
                   </div>
-                  <h2>{user.displayName}</h2>
-                  </div>
+                  <h2 className='text-[var(--accent)]'>{user.displayName}</h2>
+                </div>
                 <ul tabIndex="0" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                   <li><a href='/profile'>Profile</a></li>
                   <li><a href='/myActivities'>My Activities</a></li>
