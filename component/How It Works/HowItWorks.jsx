@@ -7,7 +7,7 @@ const HowItWorks = () => {
     return (
         <div>
             <h2 className='text-[var(--accent)] text-center text-2xl font-semibold mt-5'>How It Works</h2>
-            <div className='w-11/12 mx-auto flex justify-around p-10'>
+            <div className='w-11/12 mx-auto flex flex-col lg:flex-row gap-8 items-center justify-around p-10 '>
 
                 {/* card 01 */}
                 <div className="card w-70 bg-base-100 card-md shadow-sm bg-green-100">
@@ -19,7 +19,6 @@ const HowItWorks = () => {
                 </div>
 
                 {/* card 02 */}
-
                 <div className="card w-70 bg-base-100 card-md shadow-sm bg-green-100">
                     <div className="card-body">
                         <h2 className="card-title text-[var(--accent)]"><GiProgression />Join a Challenge</h2>
