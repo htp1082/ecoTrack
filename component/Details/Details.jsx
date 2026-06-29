@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useEffect } from 'react';
 import { useLoaderData } from 'react-router';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { AuthContext } from '../../auth/AuthProvider';
@@ -35,7 +35,7 @@ const Details = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                if (data.success === false) {
+                if (data === false) {
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
@@ -59,6 +59,18 @@ const Details = () => {
                 setLoading(false)
             })
     }
+
+    useEffect(()=>{
+          if(!user?.email)return
+        fetch(`http://localhost:3000/join/${user?.email}/${_id}`)
+        .then(res => res.json())
+        .then(data =>{
+            if(data){
+                setLoading(true)
+            }
+        })
+
+    },[_id,user])
     return (
         <div>
 
