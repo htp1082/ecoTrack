@@ -2,14 +2,24 @@ import React, { use } from 'react';
 import { AuthContext } from '../../auth/AuthProvider';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import Loader from '../Loading/Loader';
 
 const Registration = () => {
-     const {registrationUser,updateProfileUser,googleSingInUser} = use(AuthContext)
+    const { registrationUser, updateProfileUser, googleSingInUser } = use(AuthContext)
     const [passwordEror, setPasswordEror] = useState(" ")
     const [sucessfull, setsucessfull] = useState('')
-    const [erorSMS,seterorSMS] = useState('')
-
+    const [erorSMS, seterorSMS] = useState('')
     const navigate = useNavigate()
+
+    const [loading, setLoading] = useState(false)
+
+    if (loading) {
+        <div className="min-h-screen flex items-center justify-center">
+            <Loader></Loader>
+        </div>
+    }
+
+
 
     const signUpHandler = (e) => {
 
@@ -40,33 +50,38 @@ const Registration = () => {
             setPasswordEror("Password must contain at least one special character.")
             return
         }
-        registrationUser(email,password)
-        .then(() =>{
-            return updateProfileUser(name,photo);
-        })
-        .then(()=>{
-            console.log('Profile update');
-            setsucessfull('Registration Sucessfull');
-            e.target.reset();
-            navigate('/login')
-        })
-        .catch((eror)=>{
-            console.log(eror)
-            seterorSMS(eror.message);
-        })
+
+        setLoading(true)
+        registrationUser(email, password)
+            .then(() => {
+                return updateProfileUser(name, photo);
+            })
+            .then(() => {
+                console.log('Profile update');
+                setsucessfull('Registration Sucessfull');
+                e.target.reset();
+                navigate('/login')
+                setLoading(false)
+            })
+            .catch((eror) => {
+                console.log(eror)
+                seterorSMS(eror.message);
+            })
 
     }
 
-    const googleHandler =(e)=>{
+    const googleHandler = (e) => {
         e.preventDefault();
+        setLoading(true)
         googleSingInUser()
-        .then(result =>{
-            console.log(result)
-            navigate('/')
-        })
-        .catch((eror)=>{
-            console.log(eror)
-        })
+            .then(result => {
+                console.log(result)
+                setLoading(false)
+                navigate('/')
+            })
+            .catch((eror) => {
+                console.log(eror)
+            })
     }
     return (
         <div>
@@ -86,7 +101,7 @@ const Registration = () => {
                                 <label className="label">Email</label>
                                 <input type="email" name='email' className="input" required placeholder="Email" />
                                 <label className="label">Password</label>
-                                <input type="password" name='password' className="input" required  placeholder="Password" />
+                                <input type="password" name='password' className="input" required placeholder="Password" />
                                 {passwordEror && <h2 className='text-red-500 font-bold'>{passwordEror}</h2>}
                                 <button className="btn btn-neutral mt-4">Login</button>
 
@@ -99,11 +114,11 @@ const Registration = () => {
                             </form>
 
                             {
-                            sucessfull && <h2 className='text-green-500 font-bold'>{sucessfull}</h2>
+                                sucessfull && <h2 className='text-green-500 font-bold'>{sucessfull}</h2>
                             }
 
                             {
-                            erorSMS && <h2 className='text-red-500 font-bold'>{erorSMS}</h2>
+                                erorSMS && <h2 className='text-red-500 font-bold'>{erorSMS}</h2>
                             }
 
 
